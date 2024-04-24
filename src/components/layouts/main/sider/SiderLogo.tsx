@@ -13,7 +13,7 @@ interface SiderLogoProps {
 export const SiderLogo: React.FC<SiderLogoProps> = ({ isSiderCollapsed, toggleSider }) => {
   const { tabletOnly } = useResponsive();
 
-  const theme = useAppSelector((state) => state.theme.theme);
+  const theme = 'light';
 
   const img = theme === 'dark' ? logoDark : logo;
 

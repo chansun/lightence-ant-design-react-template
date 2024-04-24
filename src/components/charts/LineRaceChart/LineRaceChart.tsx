@@ -46,7 +46,7 @@ export const LineRaceChart: React.FC = () => {
   const rawData = JSON.parse(JSON.stringify(Data));
   const { t } = useTranslation();
 
-  const theme = useAppSelector((state) => state.theme.theme);
+  const theme = 'light';
 
   const runAnimation = useCallback(() => {
     const countries = ['Finland', 'Germany', 'Iceland', 'Norway', 'United Kingdom'];

@@ -14,7 +14,7 @@ interface PieChartProps extends BaseChartProps {
 }
 
 export const PieChart: React.FC<PieChartProps> = ({ option, data, name, showLegend, ...props }) => {
-  const theme = useAppSelector((state) => state.theme.theme);
+  const theme = 'light';
 
   const defaultPieOption = {
     tooltip: {

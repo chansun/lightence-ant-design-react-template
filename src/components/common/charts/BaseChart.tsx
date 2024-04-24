@@ -48,7 +48,7 @@ export const getDefaultTooltipStyles = (theme: ITheme): DefaultTooltipStyles => 
 });
 
 export const BaseChart: React.FC<BaseChartProps> = ({ option, width, height, onEvents, style, ...props }) => {
-  const theme = useAppSelector((state) => state.theme.theme);
+  const theme = 'light';
   const [loading, setLoading] = useState(true);
 
   const chartHeight = height || '400px';

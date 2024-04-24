@@ -11,7 +11,7 @@ interface BloodScreeningChartsProps {
 }
 
 export const BloodScreeningChart: React.FC<BloodScreeningChartsProps> = ({ data }) => {
-  const theme = useAppSelector((state) => state.theme.theme);
+  const theme = 'light';
   const { isTablet, isDesktop, isMobile } = useResponsive();
   const months = Dates.getMonths();
 

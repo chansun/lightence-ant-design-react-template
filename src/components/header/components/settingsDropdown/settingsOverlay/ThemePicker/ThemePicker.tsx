@@ -7,7 +7,7 @@ import { setNightMode } from '@app/store/slices/nightModeSlice';
 
 export const ThemePicker: React.FC = () => {
   const dispatch = useAppDispatch();
-  const theme = useAppSelector((state) => state.theme.theme);
+  const theme = 'light';
 
   const handleClickButton = (theme: ThemeType) => {
     dispatch(setTheme(theme));

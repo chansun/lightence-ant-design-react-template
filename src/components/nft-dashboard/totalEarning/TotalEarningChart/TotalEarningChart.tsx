@@ -15,7 +15,7 @@ interface TotalEarningChartProps {
 }
 
 export const TotalEarningChart: React.FC<TotalEarningChartProps> = ({ xAxisData, earningData }) => {
-  const theme = useAppSelector((state) => state.theme.theme);
+  const theme = 'light';
   const option = {
     tooltip: {
       ...getDefaultTooltipStyles(themeObject[theme]),
