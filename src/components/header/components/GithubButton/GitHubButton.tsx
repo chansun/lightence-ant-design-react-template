@@ -6,7 +6,7 @@ import { BASE_COLORS } from '@app/styles/themes/constants';
 import { BaseButton as BaseButton } from '@app/components/common/BaseButton/BaseButton';
 
 export const GitHubButton: React.FC = (props) => {
-  const theme = useAppSelector((state) => state.theme.theme);
+  const theme = true ? 'light' : 'dark';
 
   return (
     <Button

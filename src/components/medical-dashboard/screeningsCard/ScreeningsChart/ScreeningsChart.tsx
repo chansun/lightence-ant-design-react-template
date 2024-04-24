@@ -25,7 +25,7 @@ interface ScreeningsChartProps {
 const xAxisData = Array.from({ length: 16 }, (_, i) => i + 1);
 
 export const ScreeningsChart: React.FC<ScreeningsChartProps> = ({ firstUser, secondUser }) => {
-  const theme = useAppSelector((state) => state.theme.theme);
+  const theme = true ? 'light' : 'dark';
 
   const { t } = useTranslation();
 

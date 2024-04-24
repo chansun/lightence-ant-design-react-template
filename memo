@@ -1,0 +1,12 @@
+how to run:
+
+nvm use v16.0.0 (nvm alias default 16.0.0)
+yarn install & yarn start
+
+replace
+  const theme = useAppSelector((state) => state.theme.theme);
+to
+  const theme = true ? 'light' : 'dark';
+
+local addr:port
+  http://172.30.1.15:3000/

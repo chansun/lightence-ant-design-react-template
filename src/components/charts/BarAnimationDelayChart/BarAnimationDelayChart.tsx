@@ -7,7 +7,7 @@ import { themeObject } from '@app/styles/themes/themeVariables';
 
 export const BarAnimationDelayChart: React.FC = () => {
   const { t } = useTranslation();
-  const theme = useAppSelector((state) => state.theme.theme);
+  const theme = true ? 'light' : 'dark';
 
   const [data, setData] = useState<{ data1: number[]; data2: number[]; xAxisData: string[] }>({
     data1: [],
