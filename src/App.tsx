@@ -16,7 +16,7 @@ import { themeObject } from './styles/themes/themeVariables';
 
 const App: React.FC = () => {
   const { language } = useLanguage();
-  const theme = 'light';
+  const theme = true ? 'light' : "dark";
 
   usePWA();
 

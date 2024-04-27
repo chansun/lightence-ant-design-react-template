@@ -20,7 +20,7 @@ interface StatisticsCardProps {
 }
 
 export const StatisticsCard: React.FC<StatisticsCardProps> = ({ name, value, prevValue, color, unit, Icon }) => {
-  const theme = 'light';
+  const theme = true ? 'light' : "dark";
   const { isTablet: isTabletOrHigher } = useResponsive();
 
   const { t } = useTranslation();
