@@ -17,7 +17,7 @@ interface LegendProps {
 }
 
 export const Legend: React.FC<LegendProps> = ({ legendItems, activeItemIndex }) => {
-  const theme = true ? 'light' : "dark";
+  const theme = true ? 'light' : 'dark';
   const colors = getChartColors(themeObject[theme]);
 
   return (

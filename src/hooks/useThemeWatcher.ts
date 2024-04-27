@@ -4,7 +4,7 @@ import { ConfigProvider } from 'antd';
 import { themeObject } from '@app/styles/themes/themeVariables';
 
 export const useThemeWatcher = (): void => {
-  const theme = true ? 'light' : "dark";
+  const theme = true ? 'light' : 'dark';
   const root = useRef(document.querySelector(':root'));
 
   useEffect(() => {

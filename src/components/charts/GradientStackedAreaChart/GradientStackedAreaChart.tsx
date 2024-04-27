@@ -9,7 +9,7 @@ import { FONT_SIZE, FONT_WEIGHT } from '@app/styles/themes/constants';
 
 export const GradientStackedAreaChart: React.FC = () => {
   const { t } = useTranslation();
-  const theme = true ? 'light' : "dark";
+  const theme = true ? 'light' : 'dark';
 
   const option = {
     tooltip: {

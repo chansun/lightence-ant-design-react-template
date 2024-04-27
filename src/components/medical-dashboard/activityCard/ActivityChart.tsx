@@ -14,7 +14,7 @@ interface ActivityChartProps {
 }
 
 export const ActivityChart: React.FC<ActivityChartProps> = ({ data }) => {
-  const theme = true ? 'light' : "dark";
+  const theme = true ? 'light' : 'dark';
 
   const { t } = useTranslation();
 

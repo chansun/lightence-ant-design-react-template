@@ -11,7 +11,7 @@ export const MapCard: React.FC = () => {
     getDoctorsData().then((res) => setDoctors(res));
   }, []);
 
-  const theme = true ? 'light' : "dark";
+  const theme = true ? 'light' : 'dark';
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const key = useMemo(() => Math.random(), [theme]); // create new key on every change of theme and remount map component

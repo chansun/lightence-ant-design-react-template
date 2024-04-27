@@ -15,7 +15,7 @@ export const CovidChart: React.FC<{
   deaths: CovidData;
   dateArr: xData;
 }> = ({ confirmed, deaths, dateArr }) => {
-  const theme = true ? 'light' : "dark";
+  const theme = true ? 'light' : 'dark';
 
   const option = {
     color: [themeObject[theme].chartPrimaryGradient, themeObject[theme].chartSecondaryGradientSpecular],
