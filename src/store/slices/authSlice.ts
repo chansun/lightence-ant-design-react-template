@@ -31,9 +31,10 @@ export const doLogin = createAsyncThunk('auth/doLogin', async (loginPayload: Log
   }),
 );
 
-export const doSignUp = createAsyncThunk('auth/doSignUp', async (signUpPayload: SignUpRequest) =>
-  signUp(signUpPayload),
-);
+export const doSignUp = createAsyncThunk('auth/doSignUp', async (signUpPayload: SignUpRequest) => {
+  console.log("inside doSignUp")
+  signUp(signUpPayload)
+});
 
 export const doResetPassword = createAsyncThunk(
   'auth/doResetPassword',

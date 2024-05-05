@@ -5,6 +5,7 @@ import { BaseCard } from '@app/components/common/BaseCard/BaseCard';
 import { FirstNameItem } from '@app/components/profile/profileCard/profileFormNav/nav/PersonalInfo/FirstNameItem/FirstNameItem';
 import { LastNameItem } from '@app/components/profile/profileCard/profileFormNav/nav/PersonalInfo/LastNameItem/LastNameItem';
 import { NicknameItem } from '@app/components/profile/profileCard/profileFormNav/nav/PersonalInfo/NicknameItem/NicknameItem';
+import { PasswordItem } from '@app/components/profile/profileCard/profileFormNav/nav/PersonalInfo/PasswordItem/PasswordItem';
 import { SexItem } from '@app/components/profile/profileCard/profileFormNav/nav/PersonalInfo/SexItem/SexItem';
 import { BirthdayItem } from '@app/components/profile/profileCard/profileFormNav/nav/PersonalInfo/BirthdayItem/BirthdayItem';
 import { LanguageItem } from '@app/components/profile/profileCard/profileFormNav/nav/PersonalInfo/LanguageItem/LanguageItem';
@@ -22,96 +23,45 @@ import { notificationController } from '@app/controllers/notificationController'
 import { PaymentCard } from '@app/interfaces/interfaces';
 import { BaseRow } from '@app/components/common/BaseRow/BaseRow';
 import { BaseCol } from '@app/components/common/BaseCol/BaseCol';
+import Item from 'antd/lib/list/Item';
+import styled from 'styled-components';
+import { useStore } from '@app/temp/utils/store';
+import { observer } from 'mobx-react-lite';
+import { UserPasswordBaseType } from '@app/temp/utils/types'
+import { sleep } from '@app/temp/utils/etc';
 
 interface PersonalInfoFormValues {
-  birthday?: string;
-  lastName: string;
-  country?: string;
-  website: string;
-  city?: string;
-  address2: string;
-  nickName: string;
-  address1: string;
-  sex?: string;
-  facebook: string;
-  language?: string;
-  linkedin: string;
-  zipcode: string;
-  firstName: string;
-  twitter: string;
-  phone: string;
-  email: string;
+    email: string;
+    password: string;
 }
 
-const initialPersonalInfoValues: PersonalInfoFormValues = {
-  firstName: '',
-  lastName: '',
-  nickName: '',
-  sex: undefined,
-  birthday: undefined,
-  language: undefined,
-  phone: '',
-  email: '',
-  country: undefined,
-  city: undefined,
-  address1: '',
-  address2: '',
-  zipcode: '',
-  website: '',
-  twitter: '',
-  linkedin: '',
-  facebook: '',
-};
-
 export const PersonalInfo: React.FC = () => {
-  const user = useAppSelector((state) => state.user.user);
 
-  const [isFieldsChanged, setFieldsChanged] = useState(false);
-  const [isLoading, setLoading] = useState(false);
+    const { userStore } = useStore();
+    const [isFieldsChanged, setFieldsChanged] = useState(false);
+    const [isLoading, setLoading] = useState(false);
 
-  const userFormValues = useMemo(
-    () =>
-      user
-        ? {
-            firstName: user.firstName,
-            lastName: user.lastName,
-            email: user.email.name,
-            phone: user.phone.number,
-            nickname: user.userName,
-            sex: user.sex,
-            birthday: Dates.getDate(user.birthday),
-            language: user.lang,
-            country: user.country,
-            city: user.city,
-            address1: user.address1,
-            address2: user?.address2,
-            zipcode: user.zipcode,
-            website: user?.website,
-            twitter: user?.socials?.twitter,
-            linkedin: user?.socials?.linkedin,
-            facebook: user?.socials?.facebook,
-          }
-        : initialPersonalInfoValues,
-    [user],
-  );
+    const initialPersonalInfoValues: PersonalInfoFormValues = {
+        email: userStore.user.email,
+        password: '********'
+    };
+    const [form] = BaseButtonsForm.useForm();
+    // const { t } = useTranslation();
 
-  const [form] = BaseButtonsForm.useForm();
-
-  const { t } = useTranslation();
-
-  const onFinish = useCallback(
-    (values: PaymentCard) => {
-      // todo dispatch an action here
-      setLoading(true);
-      setTimeout(() => {
+    const handleSubmit = async (values: PersonalInfoFormValues) => {
+        setLoading(true)
+        const dto: UserPasswordBaseType = {
+            password: values.password
+        }
+        const isSuccessful = await userStore.updateUserPassword(userStore.user.id, dto)
+        await sleep(500) // artificial delay
+        if (isSuccessful) {
+            notificationController.success({ message: "Password changed successfully" });
+        } else {
+            notificationController.error({ message: "Password change failed" });
+        }
         setLoading(false);
-        setFieldsChanged(false);
-        notificationController.success({ message: t('common.success') });
-        console.log(values);
-      }, 1000);
-    },
-    [t],
-  );
+    }
 
   return (
     <BaseCard>
@@ -119,98 +69,35 @@ export const PersonalInfo: React.FC = () => {
         form={form}
         name="info"
         loading={isLoading}
-        initialValues={userFormValues}
+        initialValues={initialPersonalInfoValues}
         isFieldsChanged={isFieldsChanged}
         setFieldsChanged={setFieldsChanged}
         onFieldsChange={() => setFieldsChanged(true)}
-        onFinish={onFinish}
+        onFinish={handleSubmit}
       >
         <BaseRow gutter={{ xs: 10, md: 15, xl: 30 }}>
-          <BaseCol span={24}>
+          <BaseColCentered span={24}>
             <BaseButtonsForm.Item>
-              <BaseButtonsForm.Title>{t('profile.nav.personalInfo.title')}</BaseButtonsForm.Title>
+              <BaseButtonsForm.Title>Account Info</BaseButtonsForm.Title>
             </BaseButtonsForm.Item>
+          </BaseColCentered>
+          <BaseCol span={12} offset={6}>
+            <EmailItem verified={true} />
           </BaseCol>
-
-          <BaseCol xs={24} md={12}>
-            <FirstNameItem />
-          </BaseCol>
-
-          <BaseCol xs={24} md={12}>
-            <LastNameItem />
-          </BaseCol>
-
-          <BaseCol xs={24} md={12}>
-            <NicknameItem />
-          </BaseCol>
-
-          <BaseCol xs={24} md={12}>
-            <SexItem />
-          </BaseCol>
-
-          <BaseCol xs={24} md={12}>
-            <BirthdayItem />
-          </BaseCol>
-
-          <BaseCol xs={24} md={12}>
-            <LanguageItem />
-          </BaseCol>
-
-          <BaseCol span={24}>
-            <BaseButtonsForm.Item>
-              <BaseButtonsForm.Title>{t('profile.nav.personalInfo.contactInfo')}</BaseButtonsForm.Title>
-            </BaseButtonsForm.Item>
-          </BaseCol>
-
-          <BaseCol xs={24} md={12}>
-            <PhoneItem verified={user?.phone.verified} />
-          </BaseCol>
-
-          <BaseCol xs={24} md={12}>
-            <EmailItem verified={user?.email.verified} />
-          </BaseCol>
-
-          <BaseCol span={24}>
-            <BaseButtonsForm.Item>
-              <BaseButtonsForm.Title>{t('common.address')}</BaseButtonsForm.Title>
-            </BaseButtonsForm.Item>
-          </BaseCol>
-
-          <BaseCol xs={24} md={12}>
-            <CountriesItem />
-          </BaseCol>
-
-          <BaseCol xs={24} md={12}>
-            <CitiesItem />
-          </BaseCol>
-
-          <BaseCol xs={24} md={12}>
-            <AddressItem number={1} />
-          </BaseCol>
-
-          <BaseCol xs={24} md={12}>
-            <AddressItem number={2} />
-          </BaseCol>
-
-          <BaseCol xs={24} md={12}>
-            <ZipcodeItem />
-          </BaseCol>
-
-          <BaseCol span={24}>
-            <BaseButtonsForm.Item>
-              <BaseButtonsForm.Title>{t('profile.nav.personalInfo.otherInfo')}</BaseButtonsForm.Title>
-            </BaseButtonsForm.Item>
-          </BaseCol>
-
-          <BaseCol xs={24} md={12}>
-            <WebsiteItem />
-          </BaseCol>
-
-          <BaseCol span={24}>
-            <SocialLinksItem />
+          <BaseCol span={12} offset={6}>
+            <PasswordItem />
           </BaseCol>
         </BaseRow>
+        <br/>
       </BaseButtonsForm>
     </BaseCard>
   );
 };
+
+const BaseColCentered = styled(BaseCol)`
+  // background: papayawhip;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+

@@ -11,7 +11,6 @@ import { useLanguage } from './hooks/useLanguage';
 import { useAutoNightMode } from './hooks/useAutoNightMode';
 import { usePWA } from './hooks/usePWA';
 import { useThemeWatcher } from './hooks/useThemeWatcher';
-import { useAppSelector } from './hooks/reduxHooks';
 import { themeObject } from './styles/themes/themeVariables';
 
 const App: React.FC = () => {

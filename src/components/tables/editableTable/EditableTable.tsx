@@ -64,12 +64,16 @@ export const EditableTable: React.FC = () => {
       const newData = [...tableData.data];
       const index = newData.findIndex((item) => key === item.key);
       if (index > -1) {
+        // console.log(newData[index]);
+        // console.log(row)
         const item = newData[index];
         newData.splice(index, 1, {
           ...item,
           ...row,
         });
+        //newData[index] = {...item, ...row,}
       } else {
+        console.log("push!")
         newData.push(row);
       }
       setTableData({ ...tableData, data: newData });
@@ -78,6 +82,7 @@ export const EditableTable: React.FC = () => {
       console.log('Validate Failed:', errInfo);
     }
   };
+
 
   const handleDeleteRow = (rowId: number) => {
     setTableData({ ...tableData, data: tableData.data.filter((item) => item.key !== rowId) });

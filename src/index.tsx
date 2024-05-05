@@ -5,6 +5,7 @@ import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import 'config/config';
 import { Provider } from 'react-redux';
 import { store } from '@app/store/store';
+import { StoreProvider } from './temp/utils/store'
 import { createRoot } from 'react-dom/client';
 import React from 'react';
 
@@ -16,11 +17,13 @@ const container = document.getElementById('root') as HTMLElement;
 const root = createRoot(container);
 
 root.render(
-  <React.StrictMode>
+  // <React.StrictMode>
     <Provider store={store}>
-      <App />
-    </Provider>
-  </React.StrictMode>,
+      <StoreProvider>
+        <App />
+      </StoreProvider>
+    </Provider>,
+  // </React.StrictMode>,
 );
 
 serviceWorkerRegistration.register({

@@ -14,17 +14,22 @@ export const BaseButtonsGroup: React.FC<BaseButtonsGroupProps> = ({ className, o
   const { t } = useTranslation();
 
   return (
-    <BaseRow className={className} gutter={[10, 10]} wrap={false}>
-      <BaseCol span={12}>
-        <BaseButton block type="ghost" onClick={onCancel} {...props}>
-          {t('common.cancel')}
-        </BaseButton>
-      </BaseCol>
-      <BaseCol span={12}>
-        <BaseButton block type="primary" loading={loading} htmlType="submit" {...props}>
-          {t('common.save')}
-        </BaseButton>
-      </BaseCol>
-    </BaseRow>
+    <>
+      <BaseRow className={className} wrap={false} gutter={{ xs: 10, md: 15, xl: 30 }}>
+        <BaseCol span={12} offset={6}>
+          <BaseButton block type="ghost" onClick={onCancel} {...props}>
+            {t('common.cancel')}
+          </BaseButton>
+        </BaseCol>
+      </BaseRow>
+      <br/>
+      <BaseRow className={className} wrap={false} gutter={{ xs: 10, md: 15, xl: 30 }}>
+        <BaseCol span={12} offset={6}>
+          <BaseButton block type="primary" loading={loading} htmlType="submit" {...props}>
+            Update
+          </BaseButton>
+        </BaseCol>
+      </BaseRow>
+    </>
   );
 };

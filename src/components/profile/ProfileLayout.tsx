@@ -13,6 +13,7 @@ import { useResponsive } from '@app/hooks/useResponsive';
 import { useAppSelector } from '@app/hooks/reduxHooks';
 import { BaseRow } from '../common/BaseRow/BaseRow';
 import { BaseCol } from '../common/BaseCol/BaseCol';
+import { Col } from "antd"
 
 const ProfileLayout: React.FC = () => {
   const user = useAppSelector((state) => state.user.user);
@@ -28,7 +29,7 @@ const ProfileLayout: React.FC = () => {
   const isMenuShown = isTabletOrHigher || (mobileOnly && location.pathname !== '/profile');
 
   useEffect(() => {
-    isTablet && location.pathname === '/profile' && navigate('personal-info');
+    isTablet && location.pathname === '/profile' && navigate('info');
   }, [isTablet, location.pathname, navigate]);
 
   return (
@@ -41,7 +42,7 @@ const ProfileLayout: React.FC = () => {
       )}
 
       <BaseRow gutter={[30, 30]}>
-        {isTitleShown && (
+        {/* {isTitleShown && (
           <BaseCol xs={24} md={24} xl={8}>
             <ProfileCard>
               <BaseRow gutter={[30, 30]}>
@@ -55,13 +56,46 @@ const ProfileLayout: React.FC = () => {
               </BaseRow>
             </ProfileCard>
           </BaseCol>
-        )}
+        )}  */}
 
         {isMenuShown && (
-          <BaseCol xs={24} md={24} xl={16}>
+          // <BaseCol xs={24} md={24} xl={16}>
+          <BaseCol xs={24} md={24} xl={24}>
             <Outlet />
           </BaseCol>
         )}
+  
+        {/* <BaseCol span="24">
+          <ProfileCard>
+            <BaseRow>
+              <BaseCol span="8">
+                11
+              </BaseCol>
+              <BaseCol span="8">
+                22
+              </BaseCol>
+              <BaseCol span="8">
+                33
+              </BaseCol>
+
+            </BaseRow>
+          </ProfileCard>
+        </BaseCol>
+
+
+        <BaseCol offset="12">
+          <ProfileCard>
+            aksmd
+          </ProfileCard>
+        </BaseCol>
+
+        <WrapperCol span={12} offset={6}>
+          col-12 col-offset-6
+        </WrapperCol>
+        <BaseCol span={12} offset={6}>
+          col-12 col-offset-6
+        </BaseCol> */}
+
       </BaseRow>
     </>
   );
@@ -79,5 +113,13 @@ const Btn = styled(BaseButton)`
   height: unset;
   color: var(--secondary-color);
 `;
+
+const WrapperCol = styled(Col)`
+  background: papayawhip;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
 
 export default ProfileLayout;

@@ -2,56 +2,61 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useLocation } from 'react-router-dom';
 import * as S from './SiderMenu.styles';
-import { sidebarNavigation, SidebarNavigationItem } from '../sidebarNavigation';
+import { sidebarNavigation } from '../sidebarNavigation';
+import { observer } from 'mobx-react-lite';
 
 interface SiderContentProps {
   setCollapsed: (isCollapsed: boolean) => void;
 }
 
-const sidebarNavFlat = sidebarNavigation.reduce(
-  (result: SidebarNavigationItem[], current) =>
-    result.concat(current.children && current.children.length > 0 ? current.children : current),
-  [],
-);
+const SiderMenu: React.FC<SiderContentProps> = observer(({ setCollapsed }) => {
 
-const SiderMenu: React.FC<SiderContentProps> = ({ setCollapsed }) => {
+  sidebarNavigation[2] = {
+    title: sidebarNavigation[2].title,
+    key: sidebarNavigation[2].key,
+    url: `/packinglists/${window.localStorage.getItem('RVPID') ? window.localStorage.getItem('RVPID') : 0}/cases`,
+    icon: sidebarNavigation[2].icon,
+  }
+
+  sidebarNavigation[3] = {
+    title: sidebarNavigation[3].title,
+    key: sidebarNavigation[3].key,
+    url: `/packinglists/${window.localStorage.getItem('RVMPID') ? window.localStorage.getItem('RVMPID') : 0}/cases/${window.localStorage.getItem('RVMCID') ? window.localStorage.getItem('RVMCID') : 0}/materials`,
+    icon: sidebarNavigation[3].icon,
+  }
+  
   const { t } = useTranslation();
   const location = useLocation();
 
-  const currentMenuItem = sidebarNavFlat.find(({ url }) => url === location.pathname);
-  const defaultSelectedKeys = currentMenuItem ? [currentMenuItem.key] : [];
-
-  const openedSubmenu = sidebarNavigation.find(({ children }) =>
-    children?.some(({ url }) => url === location.pathname),
-  );
-  const defaultOpenKeys = openedSubmenu ? [openedSubmenu.key] : [];
+  let defaultSelectedKeys: any[] = [];
+  if (location.pathname.includes("packinglists") && location.pathname.includes("cases") && location.pathname.includes("materials")) {
+    defaultSelectedKeys = ["materials"]
+  } else if (location.pathname.includes("packinglists") && location.pathname.includes("cases")) {
+    defaultSelectedKeys = ["cases"]
+  } else if (location.pathname == "/packinglists") {
+    defaultSelectedKeys = ["packinglists"]
+  } else if (location.pathname == "/dashboard") {
+    defaultSelectedKeys = ["dashboard"]
+  } else if (location.pathname == "/grids") {
+    defaultSelectedKeys = ["grids"]
+  }
 
   return (
     <S.Menu
+      selectedKeys={defaultSelectedKeys}
       mode="inline"
-      defaultSelectedKeys={defaultSelectedKeys}
-      defaultOpenKeys={defaultOpenKeys}
-      onClick={() => setCollapsed(true)}
+      defaultSelectedKeys={["dashboard"]}
       items={sidebarNavigation.map((nav) => {
-        const isSubMenu = nav.children?.length;
 
         return {
           key: nav.key,
           title: t(nav.title),
-          label: isSubMenu ? t(nav.title) : <Link to={nav.url || ''}>{t(nav.title)}</Link>,
+          label: <Link to={nav.url || ''}>{t(nav.title)}</Link>,
           icon: nav.icon,
-          children:
-            isSubMenu &&
-            nav.children &&
-            nav.children.map((childNav) => ({
-              key: childNav.key,
-              label: <Link to={childNav.url || ''}>{t(childNav.title)}</Link>,
-              title: t(childNav.title),
-            })),
         };
       })}
     />
   );
-};
+});
 
 export default SiderMenu;

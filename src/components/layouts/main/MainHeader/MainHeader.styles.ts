@@ -8,6 +8,10 @@ interface Header {
 }
 
 export const Header = styled(BaseLayout.Header)<Header>`
+
+  // header nav bar background color
+  background: var(--sider-background-color);
+
   line-height: 1.5;
 
   @media only screen and ${media.md} {

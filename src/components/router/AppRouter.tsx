@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 
 // no lazy loading for auth pages to avoid flickering
 const AuthLayout = React.lazy(() => import('@app/components/layouts/AuthLayout/AuthLayout'));
@@ -19,6 +19,9 @@ import MedicalDashboardPage from '@app/pages/DashboardPages/MedicalDashboardPage
 
 const NewsFeedPage = React.lazy(() => import('@app/pages/NewsFeedPage'));
 const DataTablesPage = React.lazy(() => import('@app/pages/DataTablesPage'));
+const PackinglistsTablePage = React.lazy(() => import('@app/pages/PackinglistsTablePage'));
+const CasesTablePage = React.lazy(() => import('@app/pages/CasesTablePage'));
+const MaterialsTablePage = React.lazy(() => import('@app/pages/MaterialsTablePage'));
 const ChartsPage = React.lazy(() => import('@app/pages/ChartsPage'));
 const ServerErrorPage = React.lazy(() => import('@app/pages/ServerErrorPage'));
 const Error404Page = React.lazy(() => import('@app/pages/Error404Page'));
@@ -98,6 +101,10 @@ const NotificationsUI = withLoading(NotificationsUIPage);
 const Skeletons = withLoading(SkeletonsPage);
 
 const DataTables = withLoading(DataTablesPage);
+const PackinglistsTable = withLoading(PackinglistsTablePage);
+const CasesTable = withLoading(CasesTablePage);
+const MaterialsTable = withLoading(MaterialsTablePage);
+
 const Charts = withLoading(ChartsPage);
 
 // Maps
@@ -129,9 +136,35 @@ export const AppRouter: React.FC = () => {
     <BrowserRouter>
       <Routes>
         <Route path={NFT_DASHBOARD_PATH} element={protectedLayout}>
-          <Route index element={<NftDashboard />} />
-          <Route path={MEDICAL_DASHBOARD_PATH} element={<MedicalDashboard />} />
-          <Route path="apps">
+          <Route path="" element={<Navigate to="/dashboard" replace />} />  
+          <Route index path="dashboard" element={<NftDashboard />} />
+
+
+          <Route path="profile" element={<ProfileLayout />}>
+            <Route path="info" element={<PersonalInfo />} />
+            {/* <Route path="security-settings" element={<SecuritySettings />} />
+            <Route path="notifications" element={<Notifications />} />
+            <Route path="payments" element={<Payments />} /> */}
+          </Route>
+
+          <Route path="dashboard" element={<Error404 />} />
+          <Route path="packinglists" element={<PackinglistsTable />} />
+          <Route path="packinglists/:packinglist_id/cases" element={<CasesTable />} />  
+          <Route path="packinglists/:packinglist_id/cases/:cases_id/materials" element={<MaterialsTable />} />  
+          <Route path="grids" element={<Error404 />} />  
+
+
+
+
+          <Route path="data-tables" element={<DataTables />} />
+          <Route path="charts" element={<Charts />} />
+          <Route path="modal" element={<Modals />} />
+          <Route path="forms">
+            <Route path="advanced-forms" element={<AdvancedForm />} />
+          </Route>
+
+          {/* <Route path={MEDICAL_DASHBOARD_PATH} element={<MedicalDashboard />} /> */}
+          {/* <Route path="apps">
             <Route path="feed" element={<NewsFeed />} />
           </Route>
           <Route path="forms">
@@ -152,7 +185,7 @@ export const AppRouter: React.FC = () => {
             <Route path="security-settings" element={<SecuritySettings />} />
             <Route path="notifications" element={<Notifications />} />
             <Route path="payments" element={<Payments />} />
-          </Route>
+          </Route>*/}
           <Route path="ui-components">
             <Route path="button" element={<Buttons />} />
             <Route path="spinner" element={<Spinners />} />
@@ -181,24 +214,28 @@ export const AppRouter: React.FC = () => {
             <Route path="alert" element={<Alerts />} />
             <Route path="notification" element={<NotificationsUI />} />
             <Route path="skeleton" element={<Skeletons />} />
-          </Route>
+          </Route> 
         </Route>
-        <Route path="/auth" element={<AuthLayoutFallback />}>
+        <Route path="/" element={<AuthLayoutFallback />}>
           <Route path="login" element={<LoginPage />} />
-          <Route path="sign-up" element={<SignUpPage />} />
-          <Route
+          <Route path="signup" element={<SignUpPage />} />
+          {/* <Route
             path="lock"
             element={
               <RequireAuth>
                 <LockPage />
               </RequireAuth>
             }
-          />
-          <Route path="forgot-password" element={<ForgotPasswordPage />} />
-          <Route path="security-code" element={<SecurityCodePage />} />
-          <Route path="new-password" element={<NewPasswordPage />} />
+          /> */}
+          {/* <Route path="forgot-password" element={<ForgotPasswordPage />} /> */}
+          {/* <Route path="security-code" element={<SecurityCodePage />} /> */}
+          {/* <Route path="new-password" element={<NewPasswordPage />} /> */}
         </Route>
         <Route path="/logout" element={<LogoutFallback />} />
+        <Route path="/pages" >
+          <Route path="404" element={<Error404 />} />
+        </Route>
+        <Route path="*" element={<Navigate to="/dashboard" replace />} />
       </Routes>
     </BrowserRouter>
   );
